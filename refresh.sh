@@ -15,7 +15,7 @@ alistUrl="localhost:6355/api/fs/list"
 alistToken="<your token>"
 
 function fetchEmbyApi(){
-    sleep 5s
+    sleep 3s
     body="{\"Updates\":[{\"path\":\"${embyTarget}\",\"updateType\":\"Created\"}]}"
     $(curl -X POST \
         "${embyUrl}?api_key=${embyToken}" \
@@ -30,7 +30,6 @@ function rcloneVfsRefresh(){
 }
 
 function fetchAlistPathApi(){
-    sleep 68s
     body="{\"path\": \"${alistTarget}\", \"refresh\": true}"
     while :
     do
@@ -40,22 +39,23 @@ function fetchAlistPathApi(){
         -H "Content-Type:application/json;charset=utf-8" \
         -d "${body}")
         wait
-        code=$(echo $respond | sed 's/,/\n/g' | grep "code" | sed 's/:/\n/g' | sed '1d' | sed 's/}//g')
-        message=$(echo $respond | sed 's/,/\n/g' | grep "message" | sed 's/:/\n/g' | sed '1d' | sed 's/"//g')
+        code=$(echo ${respond} | sed 's/,/\n/g' | grep "code" | sed 's/:/\n/g' | sed '1d' | sed 's/}//g')
+        message=$(echo ${respond} | sed 's/,/\n/g' | grep "message" | sed 's/:/\n/g' | sed '1d' | sed 's/"//g')
+        isexist=$(echo ${respond} | grep -o -w ${filename})
         time=`date +'%Y-%m-%d %H:%M:%S'`
-        if [[ "$code" == "200" ]]
+        if [[ "$code" == "200" && -n ${isexist} ]]
         then
             echo "$respond"
             break
         else
-            sleep 5s
+            sleep 7s
         fi
     done
     echo -e "time: ${time}" >> ${log_dir}/work.log
     echo -e "code: ${code}" >> ${log_dir}/work.log
     echo -e "message: ${message}" >> ${log_dir}/work.log
-    echo -e "path: ${file}\n\n" >> ${log_dir}/work.log
-    sleep 5s
+    echo -e "path: ${initpath}\n\n" >> ${log_dir}/work.log
+    sleep 3s
     rcloneVfsRefresh
 }
 fetchAlistPathApi
