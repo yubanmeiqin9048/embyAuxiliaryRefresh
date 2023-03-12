@@ -1,7 +1,7 @@
 [   
     {
         "id": "nastools",
-        "execute-command": "/home/zhang/webhook/do-something.sh",
+        "execute-command": "/home/zhang/webhook/refresh.sh",
         "response-message": "Request accepted",
         "pass-arguments-to-command": [
             {
