@@ -1,0 +1,23 @@
+[   
+    {
+        "id": "nastools",
+        "execute-command": "/home/zhang/webhook/do-something.sh",
+        "response-message": "Request accepted",
+        "pass-arguments-to-command": [
+            {
+                "source": "payload",
+                "name": "data.target_path"
+            }
+        ],
+        "trigger-rule":{
+            "match": {
+                "type": "value",
+                "value": "transfer.finished",
+                "parameter": {
+                    "source": "payload",
+                    "name": "type"
+                }
+            }
+        }
+    }
+]
