@@ -1,13 +1,10 @@
 #!/bin/bash
 parement=$1
-file="${parement/'/Video'/}"
-alistTarget="/share1${file%/*}"
-embyTarget="/mnt/share1${file}"
-rcloneTarget="${file%/*}"
-# echo -e "\n"
-# echo "$alistTarget"
-# echo "$embyTarget"
-# echo "$rcloneTarget"
+initpath="${parement/'/Video'/}"
+filename=${parement##*/}
+alistTarget="/share1${initpath%/*}"
+embyTarget="/mnt/share1${initpath}"
+rcloneTarget="${initpath%/*}"
 log_dir="<your dir>"
 embyUrl="localhost:9187/emby/Library/Media/Updated/"
 embyToken="<your token>"
