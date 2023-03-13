@@ -1,7 +1,7 @@
 #!/bin/bash
 parement=$1
 initpath="${parement/'/Video'/}"
-filename=${parement##*/}
+filename=${initpath##*/}
 alistTarget="/share1${initpath%/*}"
 embyTarget="/mnt/share1${initpath}"
 rcloneTarget="${initpath%/*}"
@@ -21,10 +21,22 @@ function fetchEmbyApi(){
 }
 
 function rcloneVfsRefresh(){
-    echo $(rclone rc vfs/refresh dir="${rcloneTarget}") >> ${log_dir}/rclone.log
-    wait
+    while :
+    do
+        respond=$(rclone rc vfs/refresh dir="${rcloneTarget}")
+        wait
+        isexist=$(echo ${respond} | grep -P -o -w "OK")
+        if [[ -n ${isexist} ]]
+        then
+            break
+        else
+            sleep 7s
+        fi
+    done
+    echo -e ${respond} | sed 's/\n//g' >> ${log_dir}/rclone.log
     fetchEmbyApi
 }
+
 
 function fetchAlistPathApi(){
     body="{\"path\": \"${alistTarget}\", \"refresh\": true}"
@@ -38,7 +50,7 @@ function fetchAlistPathApi(){
         wait
         code=$(echo ${respond} | sed 's/,/\n/g' | grep "code" | sed 's/:/\n/g' | sed '1d' | sed 's/}//g')
         message=$(echo ${respond} | sed 's/,/\n/g' | grep "message" | sed 's/:/\n/g' | sed '1d' | sed 's/"//g')
-        isexist=$(echo ${respond} | grep -o -w ${filename})
+        isexist=$(echo ${respond} | grep -P -o -w "${filename}")
         time=`date +'%Y-%m-%d %H:%M:%S'`
         if [[ "$code" == "200" && -n ${isexist} ]]
         then
