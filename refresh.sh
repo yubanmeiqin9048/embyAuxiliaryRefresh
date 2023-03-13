@@ -50,7 +50,7 @@ function fetchAlistPathApi(){
         wait
         code=$(echo ${respond} | sed 's/,/\n/g' | grep "code" | sed 's/:/\n/g' | sed '1d' | sed 's/}//g')
         message=$(echo ${respond} | sed 's/,/\n/g' | grep "message" | sed 's/:/\n/g' | sed '1d' | sed 's/"//g')
-        isexist=$(echo ${respond} | grep -P -o -w "${filename}")
+        isexist=$(echo -e ${respond} | grep -P -o -w "${filename}")
         time=`date +'%Y-%m-%d %H:%M:%S'`
         if [[ "$code" == "200" && -n ${isexist} ]]
         then
