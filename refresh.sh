@@ -52,7 +52,7 @@ function fetchAlistPathApi(){
         isexist=$(echo -e ${respond} | grep -P -o -w "${filename}")
         echo -e "${time} code: ${code}" >> ${log_dir}/webhook.log
         echo -e "${time} message: ${message}" >> ${log_dir}/webhook.log
-	    echo -e "${time} isexist: ${isexist}"  >> ${log_dir}/webhook.log
+	echo -e "${time} isexist: ${isexist}"  >> ${log_dir}/webhook.log
         if [[ "$code" == "200" && -n ${isexist} ]]
         then
             break
