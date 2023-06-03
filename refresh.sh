@@ -1,6 +1,6 @@
 #!/bin/bash
 parement=$1
-initpath=${parement/'：'/‛：}			#处理特殊字符
+initpath=${parement//'：'/‛：}			#处理特殊字符
 filename=$(basename "${initpath}")		  #取文件名
 parentpath=$(dirname "${initpath}")		  #取父目录	
 alistTarget="/share1${parentpath}"		  #拼接alist刷新路径
