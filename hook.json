@@ -1,12 +1,16 @@
 [   
     {
         "id": "nastools",
-        "execute-command": "<workdir>/refresh.sh",
+        "execute-command": "/home/zhang/webhook/task.sh",
         "response-message": "Request accepted",
         "pass-arguments-to-command": [
             {
                 "source": "payload",
                 "name": "data.target_path"
+            },
+            {
+                "source": "payload",
+                "name": "data.media_info.size"
             }
         ],
         "trigger-rule":{
