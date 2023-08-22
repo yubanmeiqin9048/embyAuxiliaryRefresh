@@ -1,2 +1,2 @@
 # embyAuxiliaryRefresh
-need `bc` and `inotify-tools`
+need `bc`、`inotify-tools` and `webhook`
