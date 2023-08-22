@@ -1,30 +1,22 @@
 [   
     {
-        "id": "moviepilot",
-        "execute-command": "/path/task.sh",
+        "id": "nastools",
+        "execute-command": "/path/webhook/task.sh",
         "response-message": "Request accepted",
         "pass-arguments-to-command": [
             {
                 "source": "payload",
-                "name": "data.transferinfo.file_list_new"
+                "name": "data.target_path"
             },
             {
                 "source": "payload",
-                "name": "data.transferinfo.path"
-            },
-            {
-                "source": "payload",
-                "name": "data.meta.type"
-            },
-            {
-                "source": "payload",
-                "name": "data.mediainfo.category"
+                "name": "data.media_info.size"
             }
         ],
         "trigger-rule":{
             "match": {
                 "type": "value",
-                "value": "transfer.complete",
+                "value": "transfer.finished",
                 "parameter": {
                     "source": "payload",
                     "name": "type"
